@@ -8,6 +8,7 @@ int main(void)
 {
 	int n;
 	int m;
+
 	for (n = 48; n <= 57; n++)
 	{
 		putchar(n);
@@ -16,6 +17,6 @@ int main(void)
 	{
 		putchar(m);
 	}
-	pitchar('\n');
+	putchar('\n');
 	return (0);
 }
