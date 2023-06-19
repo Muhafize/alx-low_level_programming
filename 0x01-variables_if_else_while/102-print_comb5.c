@@ -7,7 +7,7 @@
  * Return: 0
  */
 int main(void)
-{	
+{
 	int c = 0;
 	int f_d;
 	int l_d;
@@ -46,4 +46,4 @@ int main(void)
 	}
 	putchar('\n');
 	return (0);
-}	
+}
