@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * prinr_triangle - Prints a trisngle of squares according parsmetr
+ * print_triangle - Prints a trisngle of squares according parsmetr
  * @size: The size of the squares triangle
  * Return: empty
  */
