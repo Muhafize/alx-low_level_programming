@@ -1,48 +1,42 @@
 #include "search_algos.h"
-#include <stdio.h>
 
 /**
- * interpolation_search - interpolation search algo
- * @array: array to be searched
- * @size: size of the array
- * @value: value to be searched
- *
- * Return: int
- */
+  * interpolation_search - Searches for a value in a sorted array
+  *                        of integers using interpolation search.
+  * @array: A pointer to the first element of the array to search.
+  * @size: The number of elements in the array.
+  * @value: The value to search for.
+  *
+  * Return: If the value is not present or the array is NULL, -1.
+  *         else, the first index where the value is located.
+  *
+  * Description: Prints a value every time it is compared in the array..
+  */
 int interpolation_search(int *array, size_t size, int value)
 {
-	size_t pos;
+	size_t i, l, r;
 
 	if (array == NULL)
 		return (-1);
 
-	pos = get_pos(array, 0, (int) size - 1, value);
-	while (pos < size)
+	for (l = 0, r = size - 1; r >= l;)
 	{
-		printf("Value checked array[%lu] = [%d]\n", pos, array[pos]);
-		if (array[pos] == value)
-			return ((int) pos);
-		else if (array[pos] > value)
-			pos = get_pos(array, 0, pos - 1, value);
+		i = l + (((double)(r - l) / (array[r] - array[l])) * (value - array[l]));
+		if (i < size)
+			printf("Value checked array[%ld] = [%d]\n", i, array[i]);
 		else
-			pos = get_pos(array, pos + 1, (int) size - 1, value);
+		{
+			printf("Value checked array[%ld] is out of range\n", i);
+			break;
+		}
+
+		if (array[i] == value)
+			return (i);
+		if (array[i] > value)
+			r = i - 1;
+		else
+			l = i + 1;
 	}
-	printf("Value checked array[%lu] is out of range\n", pos);
+
 	return (-1);
-}
-
-/**
- * get_pos - applies linear interpolation formula
- * @array: array to be used
- * @low: lowest index in the array to be used
- * @high: highest index in the array to be used
- * @value: value being searched
- *
- * Return: size_t
- */
-size_t get_pos(int *array, int low, int high, int value)
-{
-	double slope_r = ((double)(high - low) / (array[high] - array[low]));
-
-	return (low + (slope_r * (value - array[low])));
 }

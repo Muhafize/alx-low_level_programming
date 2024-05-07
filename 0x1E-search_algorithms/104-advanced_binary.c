@@ -1,47 +1,54 @@
 #include "search_algos.h"
-#include <stdio.h>
 
 /**
- * advanced_binary - improvement on binary search algo CAN GET WAY BETTER
- * @array: array to be searched
- * @size: size of the array
- * @value: value being searched
- *
- * Return: index where value is located, or -1 on failure
- */
-int advanced_binary(int *array, size_t size, int value)
+  * advanced_binary_recursive - Searches recursively for a value in a sorted
+  *                             array of integers using binary search.
+  * @array: A pointer to the first element of the [sub]array to search.
+  * @left: The starting index of the [sub]array to search.
+  * @right: The ending index of the [sub]array to search.
+  * @value: The value to search for.
+  *
+  * Return: If the value is not present, -1.
+  *         else, the index where the value is located.
+  *
+  * Description: Prints the [sub]array being searched after each change.
+  */
+int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
 {
 	size_t i;
-	int mid, temp;
 
-	if (array == NULL)
+	if (right < left)
 		return (-1);
+
 	printf("Searching in array: ");
-	for (i = 0; i < size - 1; i++)
+	for (i = left; i < right; i++)
 		printf("%d, ", array[i]);
-	printf("%d\n", array[size - 1]);
-	if (size == 1)
-	{
-		if (*array == value)
-			return (0);
+	printf("%d\n", array[i]);
+
+	i = left + (right - left) / 2;
+	if (array[i] == value && (i == left || array[i - 1] != value))
+		return (i);
+	if (array[i] >= value)
+		return (advanced_binary_recursive(array, left, i, value));
+	return (advanced_binary_recursive(array, i + 1, right, value));
+}
+
+/**
+  * advanced_binary - Searches for a value in a sorted array
+  *                   of integers using advanced binary search.
+  * @array: A pointer to the first element of the array to search.
+  * @size: The number of elements in the array.
+  * @value: The value to search for.
+  *
+  * Return: If the value is not present or the array is NULL, -1.
+  *         Otherwise, the first index where the value is located.
+  *
+  * Description: Prints the [sub]array being searched after each change.
+  */
+int advanced_binary(int *array, size_t size, int value)
+{
+	if (array == NULL || size == 0)
 		return (-1);
-	}
-	if (size == 2)
-	{
-		if (array[0] == value)
-			return (0);
-		if (array[1] == value)
-			return (1);
-	}
-	mid = size % 2 == 0 ? (size / 2) - 1 : size / 2;
-	if (array[mid] > value)
-		return (advanced_binary(array, (size / 2) + 1, value));
-	if (array[mid] < value)
-	{
-		temp = advanced_binary(array + mid + 1, size / 2, value);
-		return (temp != -1 ? temp + (mid + 1) : -1);
-	}
-	if (array[mid] == value)
-		return (advanced_binary(array, mid + 1, value));
-	return (-1);
+
+	return (advanced_binary_recursive(array, 0, size - 1, value));
 }
